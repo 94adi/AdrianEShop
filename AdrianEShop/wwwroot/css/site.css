@@ -76,8 +76,13 @@ body {
         position:relative;
         right: 9%;
     }
+
+    #footer-newsletter-form {
+        padding-left: 3rem
+    }
+
 }
 
 #custom-footer {
-    line-height:0px;
+    line-height: 21px;
 }
