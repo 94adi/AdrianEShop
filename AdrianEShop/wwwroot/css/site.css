@@ -70,6 +70,11 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+#custom-footer {
+    line-height: 21px;
+}
+
+
 @media(max-width:575px) {
     #nav-search-bar 
     {
@@ -83,6 +88,14 @@ body {
 
 }
 
-#custom-footer {
-    line-height: 21px;
+
+@media(min-width:768px) {
+
+    #header-search-bar-wrapper {
+        width: 300px;
+    }
+
+    #header-search-bar {
+        width: 300px;
+    }
 }
