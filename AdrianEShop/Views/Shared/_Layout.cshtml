@@ -9,20 +9,35 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-light navbar-expand-sm navbar-toggleable-sm" style="background-color: #e3f2fd;" id="main-nav">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AdrianEShop</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">
+                    <img src="~/images/brand-icon.svg" width="30" height="30" alt="" />
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex" id="navbarCollapse">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a href="#home" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a href="#explore-head-section" class="nav-link">Content Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- Add dropdown based on categories-->
+                            <a href="#create-head-section" class="nav-link">Our Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#share-head-section" class="nav-link">Contact Us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-5 mr-auto" id="nav-search-bar">
+                        <li class="nav-item">
+                            <form class="form-inline">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -35,14 +50,36 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - AdrianEShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer id="custom-footer" class="border-top footer bg-light text-center text-md-start">
+        <div class="container mr-auto pl-3">
+            <form action="">
+                <div class="row mt-3">
+                    <div class="col-6 pt-2">
+                        <div class="row">
+                                <p><strong>Sign up for our newsletter</strong></p>
+                        </div>
+                        
+                        <div class="row">
+                                <div class="form-outline pt-2">
+                                    <input type="email" placeholder="example@email.com" id="form5Example2" class="form-control" />
+                                </div>
+                        </div>
+                        <div class="row pt-2">
+                                <button type="submit" class="btn btn-outline-primary mb-4">Subscribe</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="text-center">
+            © <span id="currentYear"></span> Copyright
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
