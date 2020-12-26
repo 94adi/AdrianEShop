@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop", "AdrianEShop\AdrianEShop.csproj", "{838E5C47-BE4F-47E7-ABCC-9CC73C7AA3F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop", "AdrianEShop\AdrianEShop.csproj", "{838E5C47-BE4F-47E7-ABCC-9CC73C7AA3F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.Models", "AdrianEShop.Models\AdrianEShop.Models.csproj", "{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop.DataAccess", "AdrianEShop.Data\AdrianEShop.DataAccess.csproj", "{7ED16D52-B77D-427F-8523-3B29136B72CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{838E5C47-BE4F-47E7-ABCC-9CC73C7AA3F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{838E5C47-BE4F-47E7-ABCC-9CC73C7AA3F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{838E5C47-BE4F-47E7-ABCC-9CC73C7AA3F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
