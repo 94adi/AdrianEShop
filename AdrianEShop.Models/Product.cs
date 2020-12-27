@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AdrianEShop.Models
 {
-    public abstract class Product : Entity
+    public class Product : Entity
     {
         [Required]
         public string Title { get; set; }

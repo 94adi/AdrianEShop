@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdrianEShop.Data\AdrianEShop.DataAccess.csproj" />
+    <ProjectReference Include="..\AdrianEShop.Models\AdrianEShop.Models.csproj" />
   </ItemGroup>
 
 </Project>

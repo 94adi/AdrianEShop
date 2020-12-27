@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AdrianEShop.Models
 {
-    public abstract class Entity
+    public class Entity
     {
         [Key]
         public Guid Id { get; set; }
