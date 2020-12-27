@@ -15,10 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\AdrianEShop.Core\AdrianEShop.Core.csproj" />
     <ProjectReference Include="..\AdrianEShop.Models\AdrianEShop.Models.csproj" />
   </ItemGroup>
 

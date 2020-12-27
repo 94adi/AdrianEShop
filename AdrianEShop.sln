@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop", "AdrianEShop\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.Models", "AdrianEShop.Models\AdrianEShop.Models.csproj", "{FA83A362-7C8C-4849-BEBE-EBBA30CEE032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop.DataAccess", "AdrianEShop.Data\AdrianEShop.DataAccess.csproj", "{7ED16D52-B77D-427F-8523-3B29136B72CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.DataAccess", "AdrianEShop.Data\AdrianEShop.DataAccess.csproj", "{7ED16D52-B77D-427F-8523-3B29136B72CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop.Core", "AdrianEShop.Core\AdrianEShop.Core.csproj", "{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ED16D52-B77D-427F-8523-3B29136B72CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
