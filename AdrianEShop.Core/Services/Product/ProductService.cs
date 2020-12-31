@@ -22,5 +22,10 @@ namespace AdrianEShop.Core.Services.Product
         {
             return _unitOfWork.Product.GetAll();
         }
+
+        public Models.Product GetProduct(int id)
+        {
+            return _unitOfWork.Product.Get(id);
+        }
     }
 }

@@ -1,4 +1,8 @@
+using AdrianEShop.Core.DAInterfaces;
+using AdrianEShop.Core.Services.Manufacturer;
+using AdrianEShop.Core.Services.Product;
 using AdrianEShop.DataAccess.Data;
+using AdrianEShop.DataAccess.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +35,9 @@ namespace AdrianEShop
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
               .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
         }

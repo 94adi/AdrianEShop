@@ -8,6 +8,10 @@ namespace AdrianEShop.Core.DAInterfaces
     {
         IProductRepository Product { get; }
 
+        IManufacturerRepository Manufacturer { get; }
+
+        ICategoryRepository Category { get; }
+
         void Save();
     }
 }

@@ -20,6 +20,8 @@ namespace AdrianEShop.DataAccess.Repository
 
         public IProductRepository Product { get; private set; }
 
+        public IManufacturerRepository Manufacturer { get; private set; }
+
         public void Dispose()
         {
             _db.Dispose();
