@@ -1,4 +1,5 @@
 using AdrianEShop.Core.DAInterfaces;
+using AdrianEShop.Core.Services.Category;
 using AdrianEShop.Core.Services.Manufacturer;
 using AdrianEShop.Core.Services.Product;
 using AdrianEShop.DataAccess.Data;
@@ -38,6 +39,7 @@ namespace AdrianEShop
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
         }

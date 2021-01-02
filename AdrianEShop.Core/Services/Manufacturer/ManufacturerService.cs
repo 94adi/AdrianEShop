@@ -20,5 +20,34 @@ namespace AdrianEShop.Core.Services.Manufacturer
         {
             return _unitOfWork.Manufacturer.GetAll();
         }
+
+        public Models.Manufacturer GetManufacturer(int id)
+        {
+            return _unitOfWork.Manufacturer.Get(id);
+        }
+
+        public void Insert(Models.Manufacturer manufacturer)
+        {
+            _unitOfWork.Manufacturer.Add(manufacturer);
+        }
+
+        public void Update(Models.Manufacturer manufacturer)
+        {
+            _unitOfWork.Manufacturer.Update(manufacturer);
+        }
+
+        public void Upsert(Models.Manufacturer manufacturer)
+        {
+            if (manufacturer.Id == 0)
+            {
+                Insert(manufacturer);
+
+            }
+            else
+            {
+                Update(manufacturer);
+            }
+            _unitOfWork.Save();
+        }
     }
 }

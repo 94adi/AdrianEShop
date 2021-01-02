@@ -1,0 +1,35 @@
+﻿@model AdrianEShop.Models.ViewModels.Manufacturer.ManufacturerIndexVM
+
+<div class="p-4 border rounded">
+    @if (Model.Manufacturers.Count() > 0)
+    {
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>Category Name</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Manufacturers)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => item.Name)</td>
+                    <td>
+                        <div class="text-center">
+                            <a href="/Admin/Manufacturer/Upsert/@item.Id" class="btn btn-success text-white" style="cursor:pointer">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            &nbsp;
+                            <button onclick=Delete("/Admin/Manufacturer/Delete/@item.Id") class="btn btn-danger text-white" style="cursor:pointer">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+    }
+    else
+    {
+        <p>No categories exist</p>
+    }
+</div>

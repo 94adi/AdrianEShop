@@ -57,6 +57,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
             if(id == null)
             {
+                productUpsertVM.PageTitle = "Create Product";
                 return View();
             }
 
@@ -65,6 +66,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            productUpsertVM.PageTitle = "Update Product";
             return View(productUpsertVM);
         }
     }

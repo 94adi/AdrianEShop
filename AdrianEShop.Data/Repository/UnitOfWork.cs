@@ -15,13 +15,17 @@ namespace AdrianEShop.DataAccess.Repository
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
+
             Product = new ProductRepository(db);
+            Category = new CategoryRepository(db);
+            Manufacturer = new ManufacturerRepository(db);
         }
 
         public IProductRepository Product { get; private set; }
 
         public IManufacturerRepository Manufacturer { get; private set; }
 
+        public ICategoryRepository Category { get; private set; }
         public void Dispose()
         {
             _db.Dispose();

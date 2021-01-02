@@ -13,5 +13,6 @@ namespace AdrianEShop.Models.ViewModels
 
         public IEnumerable<SelectListItem> ManufacturerList { get; set; }
         public IEnumerable<SelectListItem> CategoryList { get; set; }
+        public string PageTitle { get; set; }
     }
 }
