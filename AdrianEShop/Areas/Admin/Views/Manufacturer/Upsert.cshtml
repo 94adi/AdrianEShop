@@ -7,6 +7,10 @@
             <h2 class="text-primary">@Model.PageTitle</h2>
         </div>
         <div class="col-8 pt-4">
+            @if (Model.Manufacturer.Id != 0)
+            {
+                <input type="hidden" asp-for="Manufacturer.Id" />
+            }
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="@Model.Manufacturer.Name"></label>

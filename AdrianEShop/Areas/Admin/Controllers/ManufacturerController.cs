@@ -52,15 +52,15 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Manufacturer manufacturer)
+        public IActionResult Upsert(ManufacturerUpsertVM manufacturerVM)
         {
             if (ModelState.IsValid)
             {
-                _manufacturerService.Upsert(manufacturer);
+                _manufacturerService.Upsert(manufacturerVM.Manufacturer);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(manufacturer);
+            return View(manufacturerVM);
         }
     }
 }
