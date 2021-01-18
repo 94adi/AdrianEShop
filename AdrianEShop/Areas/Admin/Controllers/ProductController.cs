@@ -38,8 +38,8 @@ namespace AdrianEShop.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Upsert(int? id)
         {
-            var manufacturers = _manufacturerService.GetAllManufacturers();
-            var categories = _categoryService.GetAllCategories();
+            var manufacturers = _manufacturerService.GetAll();
+            var categories = _categoryService.GetAll();
 
             ProductUpsertVM productUpsertVM = new ProductUpsertVM
             {

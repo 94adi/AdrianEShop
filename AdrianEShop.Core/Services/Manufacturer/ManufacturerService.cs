@@ -1,4 +1,5 @@
 ﻿using AdrianEShop.Core.DAInterfaces;
+using AdrianEShop.Core.Services.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,46 +8,41 @@ using System.Threading.Tasks;
 
 namespace AdrianEShop.Core.Services.Manufacturer
 {
-    public class ManufacturerService : IManufacturerService
+    public class ManufacturerService : EntityService<Models.Manufacturer>, IManufacturerService
     {
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public ManufacturerService(IUnitOfWork unitOfWork)
+        public ManufacturerService(IUnitOfWork unitOfWork) : base(unitOfWork.Manufacturer)
         {
             _unitOfWork = unitOfWork;
-        }
-        public IEnumerable<Models.Manufacturer> GetAllManufacturers()
-        {
-            return _unitOfWork.Manufacturer.GetAll();
-        }
-
-        public Models.Manufacturer GetManufacturer(int id)
-        {
-            return _unitOfWork.Manufacturer.Get(id);
-        }
-
-        public void Insert(Models.Manufacturer manufacturer)
-        {
-            _unitOfWork.Manufacturer.Add(manufacturer);
-        }
-
-        public void Update(Models.Manufacturer manufacturer)
-        {
-            _unitOfWork.Manufacturer.Update(manufacturer);
         }
 
         public void Upsert(Models.Manufacturer manufacturer)
         {
             if (manufacturer.Id == 0)
             {
-                Insert(manufacturer);
+                Add(manufacturer);
 
             }
             else
             {
                 Update(manufacturer);
             }
+        }
+
+        public void Remove(Models.Manufacturer manufacturer)
+        {
+            _unitOfWork.Manufacturer.Remove(manufacturer);
+        }
+
+        private void Update(Models.Manufacturer manufacturer)
+        {
+            _unitOfWork.Manufacturer.Update(manufacturer);
+        }
+
+        public void Save()
+        {
             _unitOfWork.Save();
         }
     }

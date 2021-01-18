@@ -74,6 +74,10 @@ body {
     line-height: 21px;
 }
 
+a[id='create-new-item-link']:hover{
+    color: #000000 !important;
+}
+
 
 @media(max-width:575px) {
     #nav-search-bar 
@@ -92,7 +96,7 @@ body {
 @media(min-width:768px) {
 
     #header-search-bar-wrapper {
-        width: 300px;
+        width: 400px;
     }
 
     #header-search-bar {

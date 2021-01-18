@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AdrianEShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -26,20 +29,6 @@
                         <li class="nav-item">
                             <a href="#explore-head-section" class="nav-link">Content Management</a>
                         </li>
-                        <li class="nav-item">
-                            <!-- Add dropdown based on categories-->
-                            <a href="#create-head-section" class="nav-link">Our Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#share-head-section" class="nav-link">Contact Us</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ml-5 mr-auto" id="nav-search-bar">
-                        <li id="header-search-bar-wrapper" class="nav-item">
-                            <form class="form-inline">
-                                <input id="header-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            </form>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -54,6 +43,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/e19c476714.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
