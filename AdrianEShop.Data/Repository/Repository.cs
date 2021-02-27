@@ -26,7 +26,7 @@ namespace AdrianEShop.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(int id)
+        public T Get(Guid id)
         {
             return dbSet.Find(id);
         }

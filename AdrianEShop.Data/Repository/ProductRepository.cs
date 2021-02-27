@@ -32,7 +32,7 @@ namespace AdrianEShop.DataAccess.Repository
                 productFromDb.CategoryId = product.CategoryId;
                 productFromDb.Price = product.Price;
                 productFromDb.Title = product.Title;
-                productFromDb.YearOfManufacture = product.YearOfManufacture;
+                productFromDb.DateOfManufacture = product.DateOfManufacture;
                 productFromDb.DiscountCode = product.DiscountCode;
                 productFromDb.LastEdited = DateTime.Now;
             }

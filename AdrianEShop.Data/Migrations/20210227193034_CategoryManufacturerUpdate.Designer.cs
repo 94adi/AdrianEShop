@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdrianEShop.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201227171008_InitMigration")]
-    partial class InitMigration
+    [Migration("20210227193034_CategoryManufacturerUpdate")]
+    partial class CategoryManufacturerUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,10 +23,9 @@ namespace AdrianEShop.DataAccess.Migrations
 
             modelBuilder.Entity("AdrianEShop.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -40,10 +39,9 @@ namespace AdrianEShop.DataAccess.Migrations
 
             modelBuilder.Entity("AdrianEShop.Models.Manufacturer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -61,8 +59,11 @@ namespace AdrianEShop.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfManufacture")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DiscountCode")
                         .HasColumnType("nvarchar(max)");
@@ -70,14 +71,17 @@ namespace AdrianEShop.DataAccess.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LastEdited")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LongDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ManufacturerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -92,9 +96,6 @@ namespace AdrianEShop.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("YearOfManufacture")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -333,13 +334,13 @@ namespace AdrianEShop.DataAccess.Migrations
             modelBuilder.Entity("AdrianEShop.Models.Product", b =>
                 {
                     b.HasOne("AdrianEShop.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AdrianEShop.Models.Manufacturer", "Manufacturer")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -398,16 +399,6 @@ namespace AdrianEShop.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AdrianEShop.Models.Category", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("AdrianEShop.Models.Manufacturer", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

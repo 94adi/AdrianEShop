@@ -20,7 +20,7 @@ namespace AdrianEShop.Core.Services.Manufacturer
 
         public void Upsert(Models.Manufacturer manufacturer)
         {
-            if (manufacturer.Id == 0)
+            if (manufacturer.Id == Guid.Empty)
             {
                 Add(manufacturer);
 

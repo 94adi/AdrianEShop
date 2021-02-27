@@ -22,4 +22,8 @@
     <ProjectReference Include="..\AdrianEShop.Models\AdrianEShop.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
 </Project>

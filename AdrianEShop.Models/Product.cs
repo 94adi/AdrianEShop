@@ -18,19 +18,22 @@ namespace AdrianEShop.Models
         public double Price { get; set; }
         public string DiscountCode { get; set; }
 
-        public int ManufacturerId { get; set; }
+        public Guid ManufacturerId { get; set; }
         [ForeignKey("ManufacturerId")]
         public Manufacturer Manufacturer { get; set; }
 
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
         [Required]
-        public DateTime YearOfManufacture { get; set; }
+        public DateTime DateOfManufacture { get; set; }
         public string ImageURL { get; set; }
         [Required]
         public DateTime Published { get; set; }
         public DateTime LastEdited { get; set; }
+
+        [Required]
+        public bool IsPublished { get; set; }
     }
 }

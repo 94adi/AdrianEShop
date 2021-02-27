@@ -19,7 +19,7 @@ namespace AdrianEShop.Core.Services.Category
 
         public void Upsert(Models.Category category)
         {
-            if (category.Id == 0)
+            if (category.Id == Guid.Empty)
             {
                 Add(category);
 

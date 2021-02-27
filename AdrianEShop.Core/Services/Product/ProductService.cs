@@ -18,14 +18,36 @@ namespace AdrianEShop.Core.Services.Product
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Models.Product> GetAllProducts()
+        public IEnumerable<Models.Product> GetAllProducts(string includeProperties = null)
         {
-            return _unitOfWork.Product.GetAll();
+            string prop = includeProperties;
+            return _unitOfWork.Product.GetAll(includeProperties: prop);
         }
 
-        public Models.Product GetProduct(int id)
+        public Models.Product GetProduct(Guid id)
         {
             return _unitOfWork.Product.Get(id);
+        }
+
+        public void Upsert(Models.Product product)
+        {
+            if(product.Id == Guid.Empty)
+            {
+                _unitOfWork.Product.Add(product);
+            }
+            else
+            {
+                _unitOfWork.Product.Update(product);
+            }
+        }
+        public void Remove(Models.Product product)
+        {
+            _unitOfWork.Product.Remove(product);
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Save();
         }
     }
 }

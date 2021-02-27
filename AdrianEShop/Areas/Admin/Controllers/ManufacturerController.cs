@@ -28,7 +28,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public IActionResult Upsert(Guid? id)
         {
             ManufacturerUpsertVM manufacturerVM = new ManufacturerUpsertVM();
 
@@ -67,7 +67,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
         #region API
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
             var manufacturerFromDb = _manufacturerService.Get(id);
             if(manufacturerFromDb == null)

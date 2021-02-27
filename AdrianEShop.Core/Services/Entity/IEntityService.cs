@@ -12,11 +12,11 @@ namespace AdrianEShop.Core.Services
     {
         public void Add(T entity);
 
-        public T Get(int id);
+        public T Get(Guid id);
 
         public IEnumerable<T> GetAll();
 
-        public void Remove(int id);
+        public void Remove(Guid id);
 
     }
 }

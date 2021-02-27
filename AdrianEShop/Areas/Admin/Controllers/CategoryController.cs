@@ -29,7 +29,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public IActionResult Upsert(Guid? id)
         {
             CategoryUpsertVM categoryVM = new CategoryUpsertVM();
            
@@ -78,7 +78,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
             var categoryFromDb = _categoryService.Get(id);
             if(categoryFromDb != null)

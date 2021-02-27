@@ -8,9 +8,15 @@ namespace AdrianEShop.Core.Services.Product
 {
     public interface IProductService
     {
-        IEnumerable<Models.Product> GetAllProducts();
+        IEnumerable<Models.Product> GetAllProducts(string includeProperties = null);
 
-        Models.Product GetProduct(int id);
+        Models.Product GetProduct(Guid id);
+
+        void Upsert(Models.Product product);
+
+        void Remove(Models.Product product);
+
+        void Save();
 
     }
 }

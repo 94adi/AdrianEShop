@@ -25,7 +25,7 @@ namespace AdrianEShop.Core.Services.Entity
             _repository.Add(entity);
         }
 
-        public T Get(int id)
+        public T Get(Guid id)
         {
             return _repository.Get(id);
         }
@@ -35,9 +35,10 @@ namespace AdrianEShop.Core.Services.Entity
             return _repository.GetAll();
         }
 
-        public void Remove(int id)
+        public void Remove(Guid id)
         {
-            _repository.Remove(id);
+            var objToDelete = Get(id);
+            _repository.Remove(objToDelete);
         }
 
     }

@@ -8,7 +8,7 @@ namespace AdrianEShop.Core.DAInterfaces
 {
     public interface IRepository<T> where T : class
     {
-        T Get(int id);
+        T Get(Guid id);
 
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> filter = null,
