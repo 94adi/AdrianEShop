@@ -87,6 +87,10 @@ table[id='table-data'] td {
     vertical-align:middle;
 }
 
+#main-content{
+    margin-bottom : 22%;
+}
+
 @media(max-width:575px) {
     #nav-search-bar 
     {
