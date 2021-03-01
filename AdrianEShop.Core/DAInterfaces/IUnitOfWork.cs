@@ -12,6 +12,8 @@ namespace AdrianEShop.Core.DAInterfaces
 
         ICategoryRepository Category { get; }
 
+        IApplicationUserRepository ApplicationUser { get; }
+
         void Save();
     }
 }

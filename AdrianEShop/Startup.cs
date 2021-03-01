@@ -4,10 +4,12 @@ using AdrianEShop.Core.Services.Manufacturer;
 using AdrianEShop.Core.Services.Product;
 using AdrianEShop.DataAccess.Data;
 using AdrianEShop.DataAccess.Repository;
+using AdrianEShop.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,8 +42,15 @@ namespace AdrianEShop
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +71,7 @@ namespace AdrianEShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -11,14 +11,11 @@ function loadDataTable() {
             "url": "/Admin/Product/GetAll"
         },
         "columns": [
-            { "data": "title", "width": "6%" },
-            { "data": "shortDescription", "width": "6%" },
-            { "data": "longDescription", "width": "6%" },
-            { "data": "price", "width": "6%" },
-            { "data": "discountCode", "width": "6%" },
-            { "data": "manufacturer.name", "width": "6%" },
-            { "data": "category.name", "width": "6%" },
-            { "data": "dateOfManufacture", "width": "6%" },
+            { "data": "title", "width": "10%" },
+            { "data": "shortDescription", "width": "10%" },
+            { "data": "price", "width": "10%" },
+            { "data": "manufacturer.name", "width": "10%" },
+            { "data": "category.name", "width": "10%"},
             {
                 "data": "imageURL",
                 "render": function (data) {
@@ -27,10 +24,9 @@ function loadDataTable() {
                             `;
 
                 },
-                "width": "6%"
+                "width": "10%"
             },
-            { "data": "published", "width": "6%" },
-            { "data": "lastEdited", "width": "6%" },
+            { "data": "lastEdited", "width":"10%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -44,7 +40,8 @@ function loadDataTable() {
                                 </a>
                             </div>
                            `;
-                }, "width": "30%"
+                },
+                "width":"15%"
             }
         ]
     });

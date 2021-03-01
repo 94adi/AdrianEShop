@@ -19,6 +19,7 @@ namespace AdrianEShop.DataAccess.Repository
             Product = new ProductRepository(db);
             Category = new CategoryRepository(db);
             Manufacturer = new ManufacturerRepository(db);
+            ApplicationUser = new ApplicationUserRepository(db);
         }
 
         public IProductRepository Product { get; private set; }
@@ -26,6 +27,8 @@ namespace AdrianEShop.DataAccess.Repository
         public IManufacturerRepository Manufacturer { get; private set; }
 
         public ICategoryRepository Category { get; private set; }
+
+        public IApplicationUserRepository ApplicationUser { get; private set; }
         public void Dispose()
         {
             _db.Dispose();

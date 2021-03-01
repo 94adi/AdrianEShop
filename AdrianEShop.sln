@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.Models", "Adria
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.DataAccess", "AdrianEShop.Data\AdrianEShop.DataAccess.csproj", "{7ED16D52-B77D-427F-8523-3B29136B72CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop.Core", "AdrianEShop.Core\AdrianEShop.Core.csproj", "{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdrianEShop.Core", "AdrianEShop.Core\AdrianEShop.Core.csproj", "{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdrianEShop.Utility", "AdrianEShop.Utility\AdrianEShop.Utility.csproj", "{8F92C7B2-5F99-4F3C-A2B8-5AD51DBDEC5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EDBFA95-31A3-4B5A-99D3-EFD45EEABA4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F92C7B2-5F99-4F3C-A2B8-5AD51DBDEC5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F92C7B2-5F99-4F3C-A2B8-5AD51DBDEC5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F92C7B2-5F99-4F3C-A2B8-5AD51DBDEC5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F92C7B2-5F99-4F3C-A2B8-5AD51DBDEC5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
