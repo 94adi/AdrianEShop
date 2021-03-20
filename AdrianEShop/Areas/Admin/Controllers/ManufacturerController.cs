@@ -48,6 +48,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
             }
 
             return View(manufacturerVM);
+
         }
 
         [HttpPost]
