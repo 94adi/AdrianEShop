@@ -13,7 +13,7 @@ function loadDataTable() {
         "columns": [
             { "data": "title", "width": "10%" },
             { "data": "shortDescription", "width": "10%" },
-            { "data": "price", "width": "10%" },
+            { "data": "price", "width": "5%" },
             { "data": "manufacturer.name", "width": "10%" },
             { "data": "category.name", "width": "10%"},
             {
@@ -26,7 +26,17 @@ function loadDataTable() {
                 },
                 "width": "10%"
             },
-            { "data": "lastEdited", "width":"10%" },
+            {
+                "data": "lastEdited",
+                "render": function (data) {
+                    var date = new Date(data);
+                    var formatDate = date.getDate() + "." + (date.getMonth() + 1) + '.' + date.getFullYear();
+                    formatDate += '\n';
+                    formatDate += date.getHours() + ":" + date.getMinutes();
+                    return `${formatDate}`;
+                },
+                "width": "5%"
+            },
             {
                 "data": "id",
                 "render": function (data) {
@@ -35,16 +45,17 @@ function loadDataTable() {
                                 <a href="/Admin/Product/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-edit"></i> 
                                 </a>
-                                <a onclick=Delete("/Admin/Product/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                                <a onclick=Delete("/Admin/Product/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer; margin-top:20px">
                                     <i class="fas fa-trash-alt"></i> 
                                 </a>
                             </div>
                            `;
                 },
-                "width":"15%"
+                "width":"5%"
             }
         ]
     });
+    $('#table-data').removeClass('dataTable');
 }
 
 
