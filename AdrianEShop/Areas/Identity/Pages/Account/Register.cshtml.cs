@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.Models;
 using AdrianEShop.Utility;
+using CustomAttribute;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -55,7 +57,7 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [CustomEmailValidator]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -78,11 +80,23 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
             public string State { get; set; }
             public string PostalCode { get; set; }
             public string Role { get; set; }
+
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+
+            Input = new InputModel()
+            {
+                RoleList = _roleManager.Roles.Where(r => r.Name != StaticDetails.Role_User).Select(r => r.Name)
+                                       .Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -109,20 +123,27 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if(!await _roleManager.RoleExistsAsync(StaticDetails.Role_Admin))
+                    //if(!await _roleManager.RoleExistsAsync(StaticDetails.Role_Admin))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin));
+                    //}
+                    //if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_Employee))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Employee));
+                    //}
+                    //if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_User))
+                    //{
+                    //    await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_User));
+                    //}
+                    if(user.Role == null)
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin));
+                        await _userManager.AddToRoleAsync(user, StaticDetails.Role_User);
                     }
-                    if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_Employee))
+                    else
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Employee));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_User))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_User));
+                        await _userManager.AddToRoleAsync(user, user.Role);
                     }
 
-                    await _userManager.AddToRoleAsync(user, StaticDetails.Role_Admin);
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -141,8 +162,16 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if(user.Role == null)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            //admin registers new users
+                            return RedirectToAction("Index", "User", new { Area = "Admin" });
+                        }
                     }
                 }
                 foreach (var error in result.Errors)
