@@ -10,6 +10,10 @@
         <div class="col-12 border-bottom">
             <h2 class="text-primary">@Model.PageTitle</h2>
         </div>
+        @if (Model.Product.Id != Guid.Empty)
+        {
+            <img src="@Model.Product.ImageURL" class="mt-3 col-3 img-thumbnail rounded mx-auto d-block" />
+        }
         <div class="col-10 pt-4">
             <div class="form-group row">
                 <div class="col-3">
@@ -86,7 +90,7 @@
                 <div class="col-4">
                     <label asp-for="Product.IsPublished"></label>
                 </div>
-                <div class="col-8">
+                <div class="col-8 mb-3">
                     <input type="checkbox" asp-for="Product.IsPublished" class="form-control" />
                 </div>
             </div>
@@ -94,7 +98,7 @@
                 <div class="col-8 offset-4">
                     @if (Model.Product.Id != Guid.Empty)
                     {
-                         <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
+                        <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
                     }
                     else
                     {
@@ -110,12 +114,6 @@
                 </div>
             </div>
         </div>
-        @if (Model.Product.Id != Guid.Empty)
-        {
-            <div class="col-3 offset-1 pt-4">
-                <img src="@Model.Product.ImageURL" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
-            </div>
-        }
     </div>
 </form>
 

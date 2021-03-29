@@ -18,17 +18,23 @@ namespace CustomAttribute
 
         }
 
-        public string GetErrorMessage() => "Custom message: Please enter a valid email address";
+        public string GetMatchingErrorMessage() => "Custom message: Please enter a valid email address";
+
+        public string GetInvalidTypeErrorMessag() => "Custom message: Please apply attribute to a string type field";
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            bool isEmailValid = Regex.IsMatch(value.ToString(), _emailRegex , RegexOptions.IgnoreCase);
-            if (isEmailValid)
+            if(value is string)
             {
-                return ValidationResult.Success;
-            }
+                bool isEmailValid = Regex.IsMatch(value.ToString(), _emailRegex, RegexOptions.IgnoreCase);
+                if (isEmailValid)
+                {
+                    return ValidationResult.Success;
+                }
 
-            return new ValidationResult(GetErrorMessage());
+                return new ValidationResult(GetMatchingErrorMessage());
+            }
+            return new ValidationResult(GetMatchingErrorMessage());
         }
     }
     

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AdrianEShop.Models;
 using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.DataAccess.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace AdrianEShop.DataAccess.Repository
 {
@@ -16,6 +17,16 @@ namespace AdrianEShop.DataAccess.Repository
         public ApplicationUserRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
+        }
+
+        public IEnumerable<IdentityUserRole<string>> GetUserRoles()
+        {
+            return _db.UserRoles.ToList();
+        }
+
+        public IEnumerable<IdentityRole> GetAllRoles()
+        {
+            return _db.Roles.ToList();
         }
     }
 }

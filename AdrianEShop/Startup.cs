@@ -2,6 +2,7 @@ using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.Core.Services.Category;
 using AdrianEShop.Core.Services.Manufacturer;
 using AdrianEShop.Core.Services.Product;
+using AdrianEShop.Core.Services.User;
 using AdrianEShop.DataAccess.Data;
 using AdrianEShop.DataAccess.Repository;
 using AdrianEShop.Utility;
@@ -42,6 +43,7 @@ namespace AdrianEShop
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
