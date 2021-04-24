@@ -53,6 +53,18 @@ namespace AdrianEShop
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "1068152233679486";
+                options.AppSecret = "da899dff2ab344cf50e9a32a4884f8fc";
+            });
+
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "84925346485-o6spltk7pnbqatfc1l95on4dvefn4347.apps.googleusercontent.com";
+                options.ClientSecret = "Z9PtufEaAyaf-yaPKZ3iY53R";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

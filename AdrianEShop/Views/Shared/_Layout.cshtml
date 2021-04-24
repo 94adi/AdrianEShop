@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using AdrianEShop.Utility;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,19 +31,23 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        <li class="nav-item">
-                            <a href="#home" class="nav-link">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#explore-head-section" class="nav-link">Content Management</a>
-                        </li>
-                        <li class="nav-item">
-                            <!-- Add dropdown based on categories-->
-                            <a href="#create-head-section" class="nav-link">Our Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#share-head-section" class="nav-link">Contact Us</a>
-                        </li>
+                        @if (User.IsInRole(StaticDetails.Role_Admin) || User.IsInRole(StaticDetails.Role_Employee))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Content Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index" class="nav-link">Our Products</a>
+                                    @if (User.IsInRole(StaticDetails.Role_Admin))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

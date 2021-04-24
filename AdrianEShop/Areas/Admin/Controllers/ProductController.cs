@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using AdrianEShop.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using AdrianEShop.Utility;
 
 namespace AdrianEShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
     public class ProductController : Controller
     {
 

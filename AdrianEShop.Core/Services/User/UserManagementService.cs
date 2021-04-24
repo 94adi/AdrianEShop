@@ -18,6 +18,12 @@ namespace AdrianEShop.Core.Services.User
             _unitOfWork = unitOfWork;
         }
 
+        public ApplicationUser Get(Guid id)
+        {
+            var objFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id.ToString());
+            return objFromDb;
+        }
+
         public IEnumerable<ApplicationUser> GetAll()
         {
             var users = _unitOfWork.ApplicationUser.GetAll();
@@ -32,6 +38,11 @@ namespace AdrianEShop.Core.Services.User
             }
 
             return users;
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Save();
         }
     }
 }

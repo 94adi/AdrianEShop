@@ -1,6 +1,8 @@
 ﻿using AdrianEShop.Core.Services.Manufacturer;
 using AdrianEShop.Models;
 using AdrianEShop.Models.ViewModels.Manufacturer;
+using AdrianEShop.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 namespace AdrianEShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.Role_Admin)]
     public class ManufacturerController : Controller
     {
         private readonly IManufacturerService _manufacturerService;

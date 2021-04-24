@@ -4,12 +4,21 @@
     ViewData["Title"] = "Register";
 }
 @using AdrianEShop.Utility;
-<h1>@ViewData["Title"]</h1>
+
 
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+            <h3 class="col-12 text-success text-center py-4">
+                @if (User.IsInRole(StaticDetails.Role_Admin) || User.IsInRole(StaticDetails.Role_Employee))
+                {
+                    <strong>Register an User Account</strong>
+                }
+                else
+                {
+                    <strong>Sign Up</strong>
+                }
+            </h3>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -61,7 +70,8 @@
             {
                 <div class="form-group">
                     <label asp-for="Input.Role"></label>
-                    @Html.DropDownListFor(m => m.Input.Role, Model.Input.RoleList, "--Please select a role--", new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Input.Role, Model.Input.RoleList,
+                   "-Please select a role", new { @class = "form-control" })
                 </div>
             }
             <button type="submit" class="btn btn-primary">Register</button>
