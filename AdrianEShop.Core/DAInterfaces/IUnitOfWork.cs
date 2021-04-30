@@ -14,6 +14,12 @@ namespace AdrianEShop.Core.DAInterfaces
 
         IApplicationUserRepository ApplicationUser { get; }
 
+        IShoppingCartRepository ShoppingCart { get; }
+
+        IOrderDetailsRepository OrderDetails { get; }
+
+        IOrderHeaderRepository OrderHeader { get;
+        }
         void Save();
     }
 }
