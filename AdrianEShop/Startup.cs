@@ -37,7 +37,7 @@ namespace AdrianEShop
             services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddDefaultTokenProviders()
               .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
@@ -45,6 +45,7 @@ namespace AdrianEShop
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.ConfigureApplicationCookie(options =>
@@ -56,14 +57,14 @@ namespace AdrianEShop
 
             services.AddAuthentication().AddFacebook(options =>
             {
-                options.AppId = "1068152233679486";
-                options.AppSecret = "da899dff2ab344cf50e9a32a4884f8fc";
+                options.AppId = Configuration["Apps:Facebook:AppId"];
+                options.AppSecret = Configuration["Apps:Facebook:AppSecret"];
             });
 
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = "84925346485-o6spltk7pnbqatfc1l95on4dvefn4347.apps.googleusercontent.com";
-                options.ClientSecret = "Z9PtufEaAyaf-yaPKZ3iY53R";
+                options.ClientId = Configuration["Apps:Google:ClientId"];
+                options.ClientSecret = Configuration["Apps:Google:ClientSecret"];
             });
         }
 

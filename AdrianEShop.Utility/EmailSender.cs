@@ -21,13 +21,14 @@ namespace AdrianEShop.Utility
         {
             return Execute(emailOptions.SendGridKey, subject, htmlMessage, email);
         }
-        private Task Execute(string sendGridKEy, string subject,string message, string email)
+
+        private async Task Execute(string sendGridKey, string subject, string message, string email)
         {
-            var client = new SendGridClient(sendGridKEy);
-            var from = new EmailAddress("admin@bulky.com", "Bulky Books");
-            var to = new EmailAddress(email, "End User");
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
-            return client.SendEmailAsync(msg);
+            var client = new SendGridClient(sendGridKey);
+            var from = new EmailAddress("ady_viper_cena@yahoo.com", "Example User");          
+            var to = new EmailAddress("adrianrcotuna@gmail.com", "Example User"); //uses email parameter         
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, message, "");
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
