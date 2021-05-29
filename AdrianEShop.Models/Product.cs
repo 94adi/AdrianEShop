@@ -10,7 +10,6 @@ namespace AdrianEShop.Models
     {
         [Required]
         public string Title { get; set; }
-        [Required]
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         [Required]

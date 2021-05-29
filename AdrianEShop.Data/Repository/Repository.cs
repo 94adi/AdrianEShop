@@ -31,6 +31,26 @@ namespace AdrianEShop.DataAccess.Repository
             return dbSet.Find(id);
         }
 
+        public T Get(Guid id, Expression<Func<T, bool>> filter, string includeProperties)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                var properties = includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var property in properties)
+                {
+                    query = query.Include(property);
+                }
+            }
+
+            return query.FirstOrDefault();
+        }
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties)
         {
             IQueryable<T> query = dbSet;

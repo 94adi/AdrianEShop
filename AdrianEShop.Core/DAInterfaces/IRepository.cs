@@ -10,6 +10,8 @@ namespace AdrianEShop.Core.DAInterfaces
     {
         T Get(Guid id);
 
+        T Get(Guid id, Expression<Func<T, bool>> filter, string includeProperties);
+
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

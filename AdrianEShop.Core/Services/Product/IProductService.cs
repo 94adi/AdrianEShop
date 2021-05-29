@@ -12,6 +12,8 @@ namespace AdrianEShop.Core.Services.Product
 
         Models.Product GetProduct(Guid id);
 
+        Models.Product GetProduct(Guid id, string includeProperties = null);
+
         void Upsert(Models.Product product);
 
         void Remove(Models.Product product);

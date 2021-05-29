@@ -2,6 +2,7 @@ using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.Core.Services.Category;
 using AdrianEShop.Core.Services.Manufacturer;
 using AdrianEShop.Core.Services.Product;
+using AdrianEShop.Core.Services.ShoppingCart;
 using AdrianEShop.Core.Services.User;
 using AdrianEShop.DataAccess.Data;
 using AdrianEShop.DataAccess.Repository;
@@ -37,12 +38,13 @@ namespace AdrianEShop
             services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddDefaultTokenProviders()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
               .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
@@ -66,6 +68,13 @@ namespace AdrianEShop
                 options.ClientId = Configuration["Apps:Google:ClientId"];
                 options.ClientSecret = Configuration["Apps:Google:ClientSecret"];
             });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +94,7 @@ namespace AdrianEShop
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -93,7 +102,7 @@ namespace AdrianEShop
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Home}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

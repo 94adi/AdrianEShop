@@ -24,6 +24,12 @@ namespace AdrianEShop.Core.Services.User
             return objFromDb;
         }
 
+        public ApplicationUser Get(string email)
+        {
+            var objFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email.Equals(email));
+            return objFromDb;
+        }
+
         public IEnumerable<ApplicationUser> GetAll()
         {
             var users = _unitOfWork.ApplicationUser.GetAll();

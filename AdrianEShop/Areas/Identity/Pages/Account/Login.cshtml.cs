@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using AdrianEShop.Core.Services.User;
+using AdrianEShop.Core.Services.ShoppingCart;
+using Microsoft.AspNetCore.Http;
+using AdrianEShop.Utility;
 
 namespace AdrianEShop.Areas.Identity.Pages.Account
 {
@@ -20,14 +24,20 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IUserManagementService _userService;
+        private readonly IShoppingCartService _shoppingCartService;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IUserManagementService userService,
+            IShoppingCartService shoppingCartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _userService = userService;
+            _shoppingCartService = shoppingCartService;
         }
 
         [BindProperty]
@@ -84,6 +94,13 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = _userService.Get(Input.Email);
+
+                    int count = _shoppingCartService.GetProductsCount(user.Id);
+
+                    HttpContext.Session.SetInt32(StaticDetails.Shopping_Cart_Session, count);
+
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

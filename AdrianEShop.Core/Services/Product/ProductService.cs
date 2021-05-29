@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdrianEShop.Models;
+using System.Linq.Expressions;
 
 namespace AdrianEShop.Core.Services.Product
 {
@@ -27,6 +28,14 @@ namespace AdrianEShop.Core.Services.Product
         public Models.Product GetProduct(Guid id)
         {
             return _unitOfWork.Product.Get(id);
+        }
+
+        public Models.Product GetProduct(Guid id, string includeProperties = null)
+        {
+            Expression<Func<Models.Product, bool>> filterById = (p => p.Id == id);
+            var objFromDb = _unitOfWork.Product.Get(id, filterById, includeProperties);
+            return objFromDb;
+
         }
 
         public void Upsert(Models.Product product)

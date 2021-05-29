@@ -9,10 +9,12 @@ namespace AdrianEShop.Core.Services.User
 {
     public interface IUserManagementService
     {
-        public IEnumerable<ApplicationUser> GetAll();
+         IEnumerable<ApplicationUser> GetAll();
 
-        public ApplicationUser Get(Guid id);
+         ApplicationUser Get(Guid id);
 
-        public void Save();
+         ApplicationUser Get(string email);
+
+         void Save();
     }
 }
