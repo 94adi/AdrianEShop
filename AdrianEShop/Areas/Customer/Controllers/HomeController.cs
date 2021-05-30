@@ -65,6 +65,8 @@ namespace AdrianEShop.Areas.Customer.Controllers
         public IActionResult Details(ShoppingCart shoppingCart)
         {
             shoppingCart.Id = 0;
+            var productFromDb = _productService.GetProduct(shoppingCart.ProductId, includeProperties: "Manufacturer,Category");
+
             if (ModelState.IsValid)
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -73,8 +75,10 @@ namespace AdrianEShop.Areas.Customer.Controllers
 
                 ShoppingCart cartFromDb = _shoppingCartService.GetCurrentCart(claim.Value, shoppingCart.ProductId);
 
-                if(shoppingCart == null)
+                if(cartFromDb == null)
                 {
+                    shoppingCart.Product = productFromDb;
+
                     _shoppingCartService.Upsert(shoppingCart);
                 }
                 else
@@ -85,12 +89,13 @@ namespace AdrianEShop.Areas.Customer.Controllers
                 }
 
                 _shoppingCartService.Save();
+
                 var count = _shoppingCartService.GetProductsCount(shoppingCart.ApplicationUserId);
                 HttpContext.Session.SetInt32(StaticDetails.Shopping_Cart_Session, count);
                 return RedirectToAction(nameof(Index));
             }
 
-                var productFromDb = _productService.GetProduct(shoppingCart.ProductId, includeProperties: "Manufacturer,Category");
+
                 ShoppingCart cartObj = new ShoppingCart()
                 {
                     Product = productFromDb,

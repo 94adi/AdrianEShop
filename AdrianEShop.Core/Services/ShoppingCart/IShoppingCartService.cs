@@ -8,7 +8,9 @@ namespace AdrianEShop.Core.Services.ShoppingCart
 {
     public interface IShoppingCartService
     {
-        Models.ShoppingCart GetCurrentCart(string userId, Guid productId);
+        Models.ShoppingCart GetCurrentCart(string userId, Guid productId, string includeProperties = null);
+
+        IEnumerable<Models.ShoppingCart> GetAll(string userId, string includeProperties = null);
 
         void Upsert(Models.ShoppingCart cart);
 

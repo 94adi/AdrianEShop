@@ -18,16 +18,17 @@ namespace AdrianEShop.Core.Services.ShoppingCart
             _unitOfWork = unitOfWork;
         }
 
-        public Models.ShoppingCart GetCurrentCart(string userId, Guid productId)
+        public Models.ShoppingCart GetCurrentCart(string userId, Guid productId, string includeProperties = null)
         {
             Expression<Func<Models.ShoppingCart, bool>> filter =  (u) => u.ApplicationUserId == userId && u.ProductId == productId;
-            var objFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(filter, includeProperties: "Product");
+            var objFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(filter, includeProperties: includeProperties);
             return objFromDb;
         }
 
         public void Upsert(Models.ShoppingCart cart)
         {
-            if(cart == null)
+
+            if(cart.Id == 0)
             {
                 _unitOfWork.ShoppingCart.Add(cart);
             }
@@ -35,6 +36,12 @@ namespace AdrianEShop.Core.Services.ShoppingCart
             {
                 _unitOfWork.ShoppingCart.Update(cart);
             }
+        }
+
+        public IEnumerable<Models.ShoppingCart> GetAll(string userId, string includeProperties = null)
+        {
+            var userCarts =_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId.Equals(userId),includeProperties: includeProperties);
+            return userCarts;
         }
 
         public int GetProductsCount(string userId)

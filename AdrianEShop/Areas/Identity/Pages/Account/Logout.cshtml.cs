@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdrianEShop.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,8 +30,12 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            //reset cart counter
+            HttpContext.Session.SetInt32(StaticDetails.Shopping_Cart_Session, 0);
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
