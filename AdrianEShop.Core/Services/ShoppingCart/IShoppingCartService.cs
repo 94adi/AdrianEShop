@@ -10,11 +10,15 @@ namespace AdrianEShop.Core.Services.ShoppingCart
     {
         Models.ShoppingCart GetCurrentCart(string userId, Guid productId, string includeProperties = null);
 
+        Models.ShoppingCart GetCart(int id, string includeProperties = null);
+
         IEnumerable<Models.ShoppingCart> GetAll(string userId, string includeProperties = null);
 
         void Upsert(Models.ShoppingCart cart);
 
         int GetProductsCount(string userId);
+
+        void Remove(int cartId);
 
         void Save();
     }

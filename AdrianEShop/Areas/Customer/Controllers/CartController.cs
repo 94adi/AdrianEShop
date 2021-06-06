@@ -3,13 +3,17 @@ using AdrianEShop.Core.Services.User;
 using AdrianEShop.Models;
 using AdrianEShop.Models.ViewModels.ShoppingCart;
 using AdrianEShop.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace AdrianEShop.Areas.Customer.Controllers
@@ -37,6 +41,7 @@ namespace AdrianEShop.Areas.Customer.Controllers
             _userManagementService = userManagementService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -64,6 +69,77 @@ namespace AdrianEShop.Areas.Customer.Controllers
             }
 
             return View(ShoppingCartVM);
+        }
+
+        [HttpPost]
+        [ActionName("Index")]
+        public async Task<IActionResult> IndexPOST()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var user = _userManagementService.Get(claim.Value);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Verification email is empty!");
+                return RedirectToAction("Index");
+            }
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = user.Id, code = code },
+                protocol: Request.Scheme);
+
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Plus(int cartId)
+        {
+            var cart = _shoppingCartService.GetCart(cartId, includeProperties: "Product");
+            cart.Count += 1;
+            cart.Price = cart.Product.Price * cart.Count;
+            _shoppingCartService.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Minus(int cartId)
+        {
+            var cart = _shoppingCartService.GetCart(cartId, includeProperties: "Product");
+            if(cart.Count > 1)
+            {
+                cart.Count -= 1;
+                cart.Price = cart.Product.Price * cart.Count;
+            }
+            else
+            {
+                int productsCount = _shoppingCartService.GetProductsCount(cart.ApplicationUserId) - 1;
+                HttpContext.Session.SetInt32(StaticDetails.Shopping_Cart_Session, productsCount);
+                _shoppingCartService.Remove(cartId);
+            }
+            _shoppingCartService.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int cartId)
+        {
+            var cart = _shoppingCartService.GetCart(cartId);
+
+            int productsCount = _shoppingCartService.GetProductsCount(cart.ApplicationUserId) - 1;
+            HttpContext.Session.SetInt32(StaticDetails.Shopping_Cart_Session, productsCount);
+
+            _shoppingCartService.Remove(cartId);
+            _shoppingCartService.Save();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

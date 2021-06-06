@@ -59,5 +59,17 @@ namespace AdrianEShop.Core.Services.ShoppingCart
         {
             _unitOfWork.Save();
         }
+
+        public Models.ShoppingCart GetCart(int id, string includeProperties = null)
+        {
+            Expression<Func<Models.ShoppingCart, bool>> filter = (u) => u.Id == id;
+            var objFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(filter, includeProperties: includeProperties);
+            return objFromDb;
+        }
+
+        public void Remove(int cartId)
+        {
+            _unitOfWork.ShoppingCart.Remove(cartId);
+        }
     }
 }
