@@ -22,5 +22,10 @@ namespace AdrianEShop.DataAccess.Repository
         {
             _db.Update(shoppingCart);
         }
+
+        public void Remove(IEnumerable<ShoppingCart> listCart)
+        {
+            _db.RemoveRange(listCart);
+        }
     }
 }

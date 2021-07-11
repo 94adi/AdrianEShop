@@ -10,6 +10,18 @@ namespace AdrianEShop.Utility
 
         public const string Shopping_Cart_Session = "Shopping cart session";
 
+        public const string StatusPending = "Pending";
+        public const string StatusApproved = "Approved";
+        public const string StatusInProcess = "Processing";
+        public const string StatusShipped = "Shipped";
+        public const string StatusCancelled = "Cancelled";
+        public const string StatusRefunded = "Refunded";
+
+        public const string PaymentStatusPending = "Pending";
+        public const string PaymentStatusApproved = "Approved";
+        public const string PaymentStatusDelayedPayment = "ApprovedForDelayedPayment";
+        public const string PaymentStatusRejected = "Rejected";
+
         public static string ConvertToRawHtml(string source)
         {
             char[] array = new char[source.Length];

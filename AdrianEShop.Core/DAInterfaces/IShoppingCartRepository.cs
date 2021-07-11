@@ -10,5 +10,6 @@ namespace AdrianEShop.Core.DAInterfaces
     public interface IShoppingCartRepository : IRepository<ShoppingCart>
     {
         void Update(ShoppingCart shoppingCart);
+        void Remove(IEnumerable<ShoppingCart> listCart);
     }
 }
