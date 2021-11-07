@@ -1,0 +1,13 @@
+Entities:
+	OrderDetails:
+	-Links a product to a user order also contains the number of products (for same product) and price
+	
+	OrderHeader:
+	-Links a user to an order, contains all shipping/payment info
+
+	ShoppingCart:
+	-One user can have "many" shopping carts but in UI it's only one
+	-Used to fetched all shopping cart instances by userId(FK) and compiles the details in one view
+	
+	ShoppingCartVM:
+	

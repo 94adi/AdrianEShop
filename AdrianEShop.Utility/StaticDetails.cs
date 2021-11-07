@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 
 namespace AdrianEShop.Utility
 {
@@ -48,6 +49,16 @@ namespace AdrianEShop.Utility
                 }
             }
             return new string(array, 0, arrayIndex);
+        }
+
+        public static string GetUserId(ClaimsPrincipal User)
+        {
+            string userId = null;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            userId = claim.Value;
+
+            return userId;
         }
 
     }

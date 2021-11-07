@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace AdrianEShop.Models
 {
-    public class OrderDetails
+    public class OrderDetails : Entity
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
         [ForeignKey("OrderId")]
         public OrderHeader OrderHeader { get; set; }
 

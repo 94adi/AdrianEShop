@@ -1,6 +1,7 @@
 using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.Core.Services.Category;
 using AdrianEShop.Core.Services.Manufacturer;
+using AdrianEShop.Core.Services.OrderHeader;
 using AdrianEShop.Core.Services.Product;
 using AdrianEShop.Core.Services.ShoppingCart;
 using AdrianEShop.Core.Services.User;
@@ -47,6 +48,7 @@ namespace AdrianEShop
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IOrderHeaderService, OrderHeaderService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
             services.Configure<StripeSettings>(Configuration.GetSection("Apps").GetSection("Stripe"));

@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace AdrianEShop.Models
 {
-    public class OrderHeader
+    public class OrderHeader : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
 
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
@@ -34,11 +31,17 @@ namespace AdrianEShop.Models
         public DateTime PaymentDueDate { get; set; }
         public string TransactionId { get; set; }
 
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string PhoneNumber { get; set; }
+        [Required]
         public string StreetAddress { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string State { get; set; }
+        [Required]
         public string PostalCode { get; set; }
         public string OrderStatus { get; set; }
     }

@@ -228,7 +228,7 @@ namespace AdrianEShop.Areas.Customer.Controllers
 
             if(stripeToken == null)
             {
-
+                //TO DO: Look in older project for handling
             }
             else
             {

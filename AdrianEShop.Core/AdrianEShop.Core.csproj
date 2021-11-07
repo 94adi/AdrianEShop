@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdrianEShop.Models\AdrianEShop.Models.csproj" />
+    <ProjectReference Include="..\AdrianEShop.Utility\AdrianEShop.Utility.csproj" />
   </ItemGroup>
 
 </Project>
