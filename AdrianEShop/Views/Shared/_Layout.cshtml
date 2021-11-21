@@ -41,13 +41,21 @@
                                     Content Management
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index" class="nav-link">Our Products</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index" class="nav-link">Products</a>
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
                                     @if (User.IsInRole(StaticDetails.Role_Admin))
                                     {
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
                                     }
                                 </div>
+                            </li>
+                        }
+                        @if (User.IsInRole(StaticDetails.Role_User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">
+                                    <span>Order History</span>
+                                </a>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(StaticDetails.Shopping_Cart_Session) != null)

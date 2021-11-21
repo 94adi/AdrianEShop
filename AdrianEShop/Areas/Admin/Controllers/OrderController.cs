@@ -1,9 +1,11 @@
 ﻿using AdrianEShop.Core.DAInterfaces;
 using AdrianEShop.Core.Services.OrderHeader;
+using AdrianEShop.Models;
 using AdrianEShop.Models.ViewModels.Order;
 using AdrianEShop.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         [BindProperty]
-        public OrderDetailsVM OrderDetailsVM { get; set; }
+        public OrderDetailsVM OrderVM { get; set; }
 
         public OrderController(IOrderHeaderService orderHeaderService,IUnitOfWork unitOfWork)
         {
@@ -37,9 +39,104 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
         public IActionResult Details(Guid id)
         {
-            //rderDetailsVM.OrderHeader = _orderHeaderService.GetOrder(id, "ApplicationUser");
-            //OrderDetailsVM.OrderDetails = _unitOfWork.OrderDetails.GetAll(o => o.OrderId);
-            return View();
+            OrderVM = new OrderDetailsVM();
+            OrderVM.OrderHeader = _orderHeaderService.GetOrder(id.ToString(), "ApplicationUser");
+            //To refactor as service (orderDetailsService)
+            OrderVM.OrderDetails = _unitOfWork.OrderDetails.GetAll(o => o.OrderId == id, includeProperties:"Product");
+            return View(OrderVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Details")]
+        public IActionResult Details(string stripeToken)
+        {
+            var id = OrderVM.OrderHeader.Id.ToString();
+            OrderHeader orderHeader = _orderHeaderService.GetOrder(id, includeProperties:"ApplicationUser");
+
+            if(stripeToken != null)
+            {
+                var options = new ChargeCreateOptions
+                {
+                    Amount = Convert.ToInt32(orderHeader.OrderTotal*100),
+                    Currency = "usd",
+                    Description = "Order ID : " + orderHeader.Id,
+                    Source = stripeToken
+                };
+
+                var service = new ChargeService();
+                Charge charge = service.Create(options);
+
+                if (charge.Id == null)
+                {
+                    orderHeader.PaymentStatus = StaticDetails.PaymentStatusRejected;
+                }
+                else
+                {
+                    orderHeader.TransactionId = charge.Id;
+                }
+                if (charge.Status.ToLower() == "succeeded")
+                {
+                    orderHeader.PaymentStatus = StaticDetails.PaymentStatusApproved;
+                    orderHeader.PaymentDate = DateTime.Now;
+                }
+
+                _orderHeaderService.Save();
+            }
+            return RedirectToAction("Details", "Order", new { id = orderHeader.Id });
+        }
+
+        [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
+        public IActionResult StartProcessing(Guid id)
+        {
+            OrderHeader orderHeader = _orderHeaderService.GetOrder(id.ToString());
+            orderHeader.OrderStatus = StaticDetails.StatusInProcess;
+            _orderHeaderService.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
+        public IActionResult ShipOrder()
+        {
+            var id = OrderVM.OrderHeader.Id.ToString();
+            OrderHeader orderHeader = _orderHeaderService.GetOrder(id);
+            orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
+            orderHeader.ShippingDate = DateTime.Now;
+            orderHeader.OrderStatus = StaticDetails.StatusShipped;
+
+            _orderHeaderService.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
+        public IActionResult CancelOrder(Guid id)
+        {
+            OrderHeader orderHeader = _orderHeaderService.GetOrder(id.ToString());
+            if(orderHeader.PaymentStatus == StaticDetails.StatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Amount = Convert.ToInt32(orderHeader.OrderTotal * 100),
+                    Reason = RefundReasons.RequestedByCustomer,
+                    Charge = orderHeader.TransactionId
+                };
+
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+
+                orderHeader.OrderStatus = StaticDetails.StatusRefunded;
+                orderHeader.PaymentStatus = StaticDetails.StatusRefunded;
+            }
+            else
+            {
+                orderHeader.OrderStatus = StaticDetails.StatusCancelled;
+                orderHeader.PaymentStatus = StaticDetails.StatusCancelled;
+            }
+
+            _orderHeaderService.Save();
+            return RedirectToAction(nameof(Index));
         }
 
 

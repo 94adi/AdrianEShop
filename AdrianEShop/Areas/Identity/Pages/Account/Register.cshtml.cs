@@ -123,7 +123,21 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if(user.Role == null)
+                    if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_Admin))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_Employee))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Employee));
+                    }
+
+                    if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_User))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_User));
+                    }
+
+                    if (user.Role == null)
                     {
                         await _userManager.AddToRoleAsync(user, StaticDetails.Role_User);
                     }

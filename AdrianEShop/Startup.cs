@@ -6,6 +6,7 @@ using AdrianEShop.Core.Services.Product;
 using AdrianEShop.Core.Services.ShoppingCart;
 using AdrianEShop.Core.Services.User;
 using AdrianEShop.DataAccess.Data;
+using AdrianEShop.DataAccess.Initializer;
 using AdrianEShop.DataAccess.Repository;
 using AdrianEShop.Utility;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,7 @@ namespace AdrianEShop
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
               .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IProductService, Core.Services.Product.ProductService>();
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<ICategoryService, CategoryService>();
