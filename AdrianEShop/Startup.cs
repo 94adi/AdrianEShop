@@ -54,6 +54,7 @@ namespace AdrianEShop
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(Configuration);
             services.Configure<StripeSettings>(Configuration.GetSection("Apps").GetSection("Stripe"));
+            services.Configure<StripeSettings>(Configuration.GetSection("Apps").GetSection("Twilio"));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.ConfigureApplicationCookie(options =>

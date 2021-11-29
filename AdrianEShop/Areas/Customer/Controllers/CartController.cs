@@ -1,4 +1,5 @@
 ﻿using AdrianEShop.Core.DAInterfaces;
+using AdrianEShop.Core.Services.OrderHeader;
 using AdrianEShop.Core.Services.ShoppingCart;
 using AdrianEShop.Core.Services.User;
 using AdrianEShop.Models;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace AdrianEShop.Areas.Customer.Controllers
 {
@@ -30,6 +34,8 @@ namespace AdrianEShop.Areas.Customer.Controllers
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IUserManagementService _userManagementService;
         private readonly IUnitOfWork _unitOfWork;
+        private TwilioSettings _twilioOptions { get; set; }
+        private readonly IOrderHeaderService _orderHeaderService;
 
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
@@ -38,13 +44,17 @@ namespace AdrianEShop.Areas.Customer.Controllers
                               UserManager<IdentityUser> userManager,
                               IShoppingCartService shoppingCartService,
                               IUserManagementService userManagementService,
-                              IUnitOfWork unitOfWork)
+                              IUnitOfWork unitOfWork,
+                              IOptions<TwilioSettings> twilioOptions,
+                              IOrderHeaderService orderHeaderService)
         {
             _emailSender = emailSender;
             _userManager = userManager;
             _shoppingCartService = shoppingCartService;
             _userManagementService = userManagementService;
             _unitOfWork = unitOfWork;
+            _twilioOptions = twilioOptions.Value;
+            _orderHeaderService = orderHeaderService;
         }
 
         [HttpGet]
@@ -264,8 +274,22 @@ namespace AdrianEShop.Areas.Customer.Controllers
             return RedirectToAction("OrderConfirmation","Cart",new { id = ShoppingCartVM.OrderHeader.Id });
         }
 
-        public IActionResult OrderConfirmation(int id)
+        public IActionResult OrderConfirmation(Guid id)
         {
+            OrderHeader orderHeader = _orderHeaderService.GetOrder(id.ToString());
+            TwilioClient.Init(_twilioOptions.AccountSid, _twilioOptions.AuthToken);
+            try
+            {
+                var message = MessageResource.Create(
+                        body: "Order Placed on AdrianEShop. Your order Id: " + id,
+                        from: new Twilio.Types.PhoneNumber(_twilioOptions.PhoneNumber),
+                        to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber)                   
+                    );
+            }
+            catch(Exception e)
+            {
+
+            }
             return View(id);
         }
     }

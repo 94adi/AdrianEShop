@@ -25,18 +25,21 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IUserManagementService _userService;
+        private readonly IEmailSender _emailSender;
         private readonly IShoppingCartService _shoppingCartService;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
             IUserManagementService userService,
+            IEmailSender emailSender,
             IShoppingCartService shoppingCartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _userService = userService;
+            _emailSender = emailSender;
             _shoppingCartService = shoppingCartService;
         }
 
@@ -121,6 +124,47 @@ namespace AdrianEShop.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "We couldn't find an account registered with " + Input.Email);
+            }
+            else
+            {
+                try
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = userId, code = code },
+                        protocol: Request.Scheme);
+                    await _emailSender.SendEmailAsync(
+                        Input.Email,
+                        "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            }
+
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return Page();
         }
     }
