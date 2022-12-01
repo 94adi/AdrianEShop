@@ -10,13 +10,13 @@ namespace AdrianEShop.Core.Services
     //defines the basic CRUD operations that can be applied on an entity
     public interface IEntityService<T> where T : class, new()
     {
-        public void Add(T entity);
+        public Task AddAsync(T entity);
 
-        public T Get(Guid id);
+        public Task<T> GetAsync(Guid id);
 
-        public IEnumerable<T> GetAll();
+        public Task<IEnumerable<T>> GetAllAsync();
 
-        public void Remove(Guid id);
+        public Task RemoveAsync(Guid id);
 
     }
 }

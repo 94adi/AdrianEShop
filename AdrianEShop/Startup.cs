@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,9 +53,12 @@ namespace AdrianEShop
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IOrderHeaderService, OrderHeaderService>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
             services.Configure<EmailOptions>(Configuration);
             services.Configure<StripeSettings>(Configuration.GetSection("Apps").GetSection("Stripe"));
-            services.Configure<StripeSettings>(Configuration.GetSection("Apps").GetSection("Twilio"));
+            services.Configure<TwilioSettings>(Configuration.GetSection("Apps").GetSection("Twilio"));
+            services.Configure<BrainTreeSettings>(Configuration.GetSection("Apps").GetSection("BrainTree"));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.ConfigureApplicationCookie(options =>
@@ -85,7 +89,7 @@ namespace AdrianEShop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInit)
         {
             if (env.IsDevelopment())
             {
@@ -105,7 +109,7 @@ namespace AdrianEShop
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            dbInit.Initialize();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

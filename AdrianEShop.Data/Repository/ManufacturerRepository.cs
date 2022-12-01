@@ -8,7 +8,7 @@ using AdrianEShop.DataAccess.Data;
 using AdrianEShop.Models;
 namespace AdrianEShop.DataAccess.Repository
 {
-    public class ManufacturerRepository : Repository<Manufacturer>, IManufacturerRepository
+    public class ManufacturerRepository : RepositoryAsync<Manufacturer>, IManufacturerRepository
     {
         private readonly ApplicationDbContext _db;
 
@@ -16,7 +16,7 @@ namespace AdrianEShop.DataAccess.Repository
         {
             _db = db;
         }
-        public void Update(Manufacturer manufacturer)
+        public async Task UpdateAsync(Manufacturer manufacturer)
         {
             var manufacturerFromDb = _db.Manufacturers.FirstOrDefault(m => m.Id == manufacturer.Id);
             if(manufacturerFromDb != null)

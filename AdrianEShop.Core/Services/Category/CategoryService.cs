@@ -17,16 +17,16 @@ namespace AdrianEShop.Core.Services.Category
             _unitOfWork = unitOfWork;
         }
 
-        public void Upsert(Models.Category category)
+        public async Task UpsertAsync(Models.Category category)
         {
             if (category.Id == Guid.Empty)
             {
-                Add(category);
+                AddAsync(category);
 
             }
             else
             {
-                Update(category);
+                UpdateAsync(category);
             }
         }
 
@@ -36,9 +36,9 @@ namespace AdrianEShop.Core.Services.Category
         }
 
 #region private_methods
-        private void Update(Models.Category category)
+        private async Task UpdateAsync(Models.Category category)
         {
-            _unitOfWork.Category.Update(category);
+            await _unitOfWork.Category.UpdateAsync(category);
         }
 #endregion
 

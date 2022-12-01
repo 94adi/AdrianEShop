@@ -9,7 +9,7 @@ using AdrianEShop.DataAccess.Data;
 
 namespace AdrianEShop.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryRepository : RepositoryAsync<Category>, ICategoryRepository
     {
         private readonly ApplicationDbContext _db;
 
@@ -18,7 +18,7 @@ namespace AdrianEShop.DataAccess.Repository
             _db = db;
         }
 
-        public void Update(Category category)
+        public async Task UpdateAsync(Category category)
         {
             var categoryFromDb = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
 

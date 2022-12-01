@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using AdrianEShop.Models;
 namespace AdrianEShop.Core.DAInterfaces
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository : IRepositoryAsync<Category>
     {
-        void Update(Category category);
+        Task UpdateAsync(Category category);
     }
 }

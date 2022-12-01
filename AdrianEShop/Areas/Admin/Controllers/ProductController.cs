@@ -44,10 +44,10 @@ namespace AdrianEShop.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Upsert(Guid? id)
+        public async Task<IActionResult> Upsert(Guid? id)
         {
-            var manufacturers = _manufacturerService.GetAll();
-            var categories = _categoryService.GetAll();
+            var manufacturers = await _manufacturerService.GetAllAsync();
+            var categories = await _categoryService.GetAllAsync();
 
             ProductUpsertVM productUpsertVM = new ProductUpsertVM
             {
@@ -84,7 +84,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ProductUpsertVM productVM)
+        public async Task<IActionResult> Upsert(ProductUpsertVM productVM)
         {
             if (ModelState.IsValid)
             {
@@ -124,22 +124,25 @@ namespace AdrianEShop.Areas.Admin.Controllers
             else
             {
                 //rebuild VM
-                productVM.CategoryList = _categoryService.GetAll().Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                });
-
-                productVM.ManufacturerList = _manufacturerService.GetAll().Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                });
+                var categories = await _categoryService.GetAllAsync();
+                var manufacturers = await _manufacturerService.GetAllAsync();
 
                 if(productVM.Product.Id != Guid.Empty)
                 {
                     productVM.Product = _productService.GetProduct(productVM.Product.Id);
                 }
+
+                productVM.CategoryList = categories.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+
+                productVM.ManufacturerList = manufacturers.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
             }
             return View(productVM);
         }

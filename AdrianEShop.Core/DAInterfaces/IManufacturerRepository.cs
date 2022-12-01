@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AdrianEShop.Core.DAInterfaces
 {
-    public interface IManufacturerRepository : IRepository<Manufacturer>
+    public interface IManufacturerRepository : IRepositoryAsync<Manufacturer>
     {
-        void Update(Manufacturer manufacturer);
+        Task UpdateAsync(Manufacturer manufacturer);
     }
 }

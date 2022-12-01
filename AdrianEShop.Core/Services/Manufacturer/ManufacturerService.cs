@@ -18,27 +18,27 @@ namespace AdrianEShop.Core.Services.Manufacturer
             _unitOfWork = unitOfWork;
         }
 
-        public void Upsert(Models.Manufacturer manufacturer)
+        public async Task UpsertAsync(Models.Manufacturer manufacturer)
         {
             if (manufacturer.Id == Guid.Empty)
             {
-                Add(manufacturer);
+                await AddAsync(manufacturer);
 
             }
             else
             {
-                Update(manufacturer);
+                await UpdateAsync (manufacturer);
             }
         }
 
-        public void Remove(Models.Manufacturer manufacturer)
+        public async Task RemoveAsync(Models.Manufacturer manufacturer)
         {
-            _unitOfWork.Manufacturer.Remove(manufacturer);
+            await _unitOfWork.Manufacturer.RemoveAsync(manufacturer);
         }
 
-        private void Update(Models.Manufacturer manufacturer)
+        private async Task UpdateAsync(Models.Manufacturer manufacturer)
         {
-            _unitOfWork.Manufacturer.Update(manufacturer);
+             await _unitOfWork.Manufacturer.UpdateAsync(manufacturer);
         }
 
         public void Save()

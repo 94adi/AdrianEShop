@@ -11,5 +11,7 @@ namespace AdrianEShop.Models.ViewModels.Category
         public IEnumerable<Models.Category> Categories { get; set; }
 
         public string PageTitle { get; set; }
+
+        public PagingInfo PagingInfo { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace AdrianEShop.Core.Services.Category
 {
     public interface ICategoryService : IEntityService<Models.Category>
     {
-        void Upsert(Models.Category category);
+        Task UpsertAsync(Models.Category category);
         void Save();
     }
 }

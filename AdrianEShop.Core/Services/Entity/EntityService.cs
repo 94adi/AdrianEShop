@@ -13,32 +13,32 @@ namespace AdrianEShop.Core.Services.Entity
     public class EntityService<T> : IEntityService<T> where T : class, new()
     {
 
-        private readonly IRepository<T> _repository;
+        private readonly IRepositoryAsync<T> _repository;
 
-        public EntityService(IRepository<T> repository)
+        public EntityService(IRepositoryAsync<T> repository)
         {
             _repository = repository;
         }
 
-        public void Add(T entity)
+        public async Task AddAsync(T entity)
         {
-            _repository.Add(entity);
+            await _repository.AddAsync(entity);
         }
 
-        public T Get(Guid id)
+        public async Task<T> GetAsync(Guid id)
         {
-            return _repository.Get(id);
+            return await _repository.GetAsync(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return _repository.GetAll();
+            return await _repository.GetAllAsync();
         }
 
-        public void Remove(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            var objToDelete = Get(id);
-            _repository.Remove(objToDelete);
+            var objToDelete = await GetAsync(id);
+            await _repository.RemoveAsync(objToDelete);
         }
 
     }

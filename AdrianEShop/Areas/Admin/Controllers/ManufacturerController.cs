@@ -22,16 +22,16 @@ namespace AdrianEShop.Areas.Admin.Controllers
             _manufacturerService = manufacturerService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ManufacturerIndexVM manufacturerVM = new ManufacturerIndexVM();
-            manufacturerVM.Manufacturers = _manufacturerService.GetAll();
+            manufacturerVM.Manufacturers = await _manufacturerService.GetAllAsync();
             manufacturerVM.PageTitle = "Manufacturers List";
             return View(manufacturerVM);
         }
 
         [HttpGet]
-        public IActionResult Upsert(Guid? id)
+        public async Task<IActionResult> Upsert(Guid? id)
         {
             ManufacturerUpsertVM manufacturerVM = new ManufacturerUpsertVM();
 
@@ -42,7 +42,7 @@ namespace AdrianEShop.Areas.Admin.Controllers
                 return View(manufacturerVM);
             }
 
-            manufacturerVM.Manufacturer = _manufacturerService.Get(id.Value);
+            manufacturerVM.Manufacturer = await _manufacturerService.GetAsync(id.Value);
             manufacturerVM.PageTitle = "Update manufacturer";
 
             if (manufacturerVM.Manufacturer == null)
@@ -55,11 +55,11 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ManufacturerUpsertVM manufacturerVM)
+        public async Task <IActionResult> Upsert(ManufacturerUpsertVM manufacturerVM)
         {
             if (ModelState.IsValid)
             {
-                _manufacturerService.Upsert(manufacturerVM.Manufacturer);
+                await _manufacturerService.UpsertAsync(manufacturerVM.Manufacturer);
                 _manufacturerService.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -70,16 +70,16 @@ namespace AdrianEShop.Areas.Admin.Controllers
         #region API
 
         [HttpDelete]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var manufacturerFromDb = _manufacturerService.Get(id);
+            var manufacturerFromDb = await _manufacturerService.GetAsync(id);
             if(manufacturerFromDb == null)
             {
                 TempData["Error"] = "Could not delete manufacturer";
                 return Json(new { success = false, message = "Could not delete manufacturer" });
             }
 
-            _manufacturerService.Remove(manufacturerFromDb.Id);
+            await _manufacturerService.RemoveAsync(manufacturerFromDb.Id);
             _manufacturerService.Save();
             TempData["Success"] = "The manufacturer has been successfully deleted";
             return Json(new { success = true, message = "The manufacturer has been successfully deleted" });
@@ -87,9 +87,9 @@ namespace AdrianEShop.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Manufacturer> manufacturers = _manufacturerService.GetAll();
+            IEnumerable<Manufacturer> manufacturers = await _manufacturerService.GetAllAsync();
             return Json(new { data = manufacturers });
         }
 

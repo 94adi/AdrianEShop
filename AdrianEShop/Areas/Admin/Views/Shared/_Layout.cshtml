@@ -43,6 +43,9 @@
                                     }
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-controller="BrainTree" asp-action="Index">Home</a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -51,6 +54,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_Notifications" />
             @RenderBody()
         </main>
     </div>

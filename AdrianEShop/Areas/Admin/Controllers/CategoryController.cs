@@ -21,24 +21,37 @@ namespace AdrianEShop.Areas.Admin.Controllers
         {
             _categoryService = categoryService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int productPage = 1)
         {
             CategoryIndexVM categoryVM = new CategoryIndexVM();
+
+            var categories = await _categoryService.GetAllAsync();
+
             categoryVM.PageTitle = "Categories List";
 
-            categoryVM.Categories = _categoryService.GetAll();
+            categoryVM.Categories = categories.OrderBy(c => c.Name).Skip((productPage - 1) * 2).Take(2).ToList();
+
+            var count = categories.Count();
+
+            categoryVM.PagingInfo = new Models.PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = 2,
+                TotalItem = count,
+                urlParam = "/Admin/Category/Index?productPage=:"
+            };
 
             return View(categoryVM);
         }
 
         [HttpGet]
-        public IActionResult Upsert(Guid? id)
+        public async Task<IActionResult> Upsert(Guid? id)
         {
             CategoryUpsertVM categoryVM = new CategoryUpsertVM();
            
             if (id.HasValue)
             {
-                Models.Category category = _categoryService.Get(id.Value);
+                Models.Category category = await _categoryService.GetAsync(id.Value);
 
                 if(category == null)
                 {
@@ -59,11 +72,11 @@ namespace AdrianEShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(CategoryUpsertVM categoryVM)
+        public async Task<IActionResult> Upsert(CategoryUpsertVM categoryVM)
         {
             if (ModelState.IsValid)
             {
-                _categoryService.Upsert(categoryVM.Category);
+                await _categoryService.UpsertAsync(categoryVM.Category);
                 _categoryService.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -74,19 +87,19 @@ namespace AdrianEShop.Areas.Admin.Controllers
         #region API CALLS
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var allCategories = _categoryService.GetAll();
+            var allCategories = await _categoryService.GetAllAsync();
             return Json(new { data = allCategories });
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var categoryFromDb = _categoryService.Get(id);
+            var categoryFromDb = await _categoryService.GetAsync(id);
             if(categoryFromDb != null)
             {
-                _categoryService.Remove(categoryFromDb.Id);
+                await _categoryService.RemoveAsync(categoryFromDb.Id);
                 _categoryService.Save();
                 TempData["Success"] = "Category successfully deleted";
                 return Json(new { success = true, message = "Category successfully deleted" });
